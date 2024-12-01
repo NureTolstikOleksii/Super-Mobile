@@ -28,11 +28,11 @@ export default function WelcomeScreen({ navigation }) { // Добавлен па
     const handleCloseModal = () => {
         setIsModalVisible(false);
         setIsProvider(false);
+        navigation.navigate('Home');
     };
 
-    const handleRegisterNavigation = () => {
-        setIsModalVisible(false);
-        navigation.navigate('Home'); // Навигация на HomeScreen
+    const toggleProvider = () => {
+        setIsProvider(!isProvider);
     };
 
     const openLoginModal = () => {
@@ -42,6 +42,7 @@ export default function WelcomeScreen({ navigation }) { // Добавлен па
 
     const closeLoginModal = () => {
         setIsLoginModalVisible(false);
+        navigation.navigate('Home');
     };
 
     const openCategoryModal = () => {
@@ -59,61 +60,120 @@ export default function WelcomeScreen({ navigation }) { // Добавлен па
 
     return (
         <ImageBackground source={require('../assets/images/gradient.png')} style={styles.backgroundImage}>
-            <View style={styles.container}>
-                <Image source={require('../assets/images/capibara.png')} style={styles.image} />
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
-                        <View style={styles.simpleButton}>
-                            <Text style={styles.buttonText}>Зареєструватися</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text style={styles.loginText}>
-                        Якщо ви вже зареєстровані{' '}
-                        <Text style={styles.loginLink} onPress={openLoginModal}>
-                            Увійдіть
-                        </Text>
-                    </Text>
-                </View>
+        <View style={styles.container}>
+            {/* Основное изображение */}
 
-                <Modal visible={isModalVisible} transparent animationType="slide" onRequestClose={handleCloseModal}>
-                    <View style={styles.modalContainer}>
-                        <View style={[styles.modalContent, { maxHeight: '70%' }]}>
-                            <ScrollView contentContainerStyle={styles.scrollContent}>
-                                <Text style={styles.label}>Повне ім'я</Text>
-                                <TextInput style={styles.input} placeholder="" />
-                                <Text style={styles.label}>Адреса ел. пошти</Text>
-                                <TextInput style={styles.input} placeholder="" keyboardType="email-address" />
-                                <Text style={styles.label}>Пароль</Text>
-                                <TextInput style={styles.input} placeholder="" secureTextEntry />
-
-                                <View style={styles.checkboxContainer}>
-                                    <TouchableOpacity onPress={() => setIsProvider(!isProvider)} style={styles.checkbox}>
-                                        {isProvider && <View style={styles.checkboxInner} />}
-                                    </TouchableOpacity>
-                                    <Text style={styles.checkboxText}>Зареєструватися як постачальник</Text>
-                                </View>
-
-                                {isProvider && (
-                                    <>
-                                        <Text style={styles.label}>Назва підприємства</Text>
-                                        <TextInput style={styles.input} placeholder="" />
-                                        <Text style={styles.label}>Категорія послуг</Text>
-                                        <TouchableOpacity style={styles.input} onPress={openCategoryModal}>
-                                            <Text style={styles.selectedCategoryText}>{selectedCategory || ''}</Text>
-                                        </TouchableOpacity>
-                                    </>
-                                )}
-
-                                <TouchableOpacity style={styles.formButton} onPress={handleRegisterNavigation}>
-                                    <View style={styles.simpleFormButton}>
-                                        <Text style={styles.buttonText}>Зареєструватися</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </ScrollView>
-                        </View>
+            
+            <Image source={require('../assets/images/capibara.png')} style={styles.image} />
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={handleOpenModal}>
+                    <View style={styles.simpleButton}>
+                        <Text style={styles.buttonText}>Зареєструватися</Text>
                     </View>
-                </Modal>
+                </TouchableOpacity>
+                <Text style={styles.loginText}>
+                    Якщо ви вже зареєстровані <Text style={styles.loginLink} onPress={openLoginModal}>Увійдіть</Text>
+                </Text>
             </View>
+
+            <Modal visible={isModalVisible} transparent animationType="slide" onRequestClose={handleCloseModal}>
+                <View style={styles.modalContainer}>
+                    <View style={[styles.modalContent, { maxHeight: '70%' }]}>
+                        <ScrollView contentContainerStyle={styles.scrollContent}>
+                            <Text style={styles.label}>Повне ім'я</Text>
+                            <TextInput style={styles.input} placeholder="" />
+                            <Text style={styles.label}>Адреса ел. пошти</Text>
+                            <TextInput style={styles.input} placeholder="" keyboardType="email-address" />
+                            <Text style={styles.label}>Пароль</Text>
+                            <TextInput style={styles.input} placeholder="" secureTextEntry />
+
+                            <View style={styles.checkboxContainer}>
+                                <TouchableOpacity onPress={toggleProvider} style={styles.checkbox}>
+                                    {isProvider && <View style={styles.checkboxInner} />}
+                                </TouchableOpacity>
+                                <Text style={styles.checkboxText}>Зареєструватися як постачальник</Text>
+                            </View>
+
+                            {isProvider && (
+                                <>
+                                    <Text style={styles.label}>Назва підприємства</Text>
+                                    <TextInput style={styles.input} placeholder="" />
+
+                                    <Text style={styles.label}>Категорія послуг</Text>
+                                    <TouchableOpacity style={styles.input} onPress={openCategoryModal}>
+                                        <Text style={styles.selectedCategoryText}>
+                                            {selectedCategory || ''}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </>
+                            )}
+
+                            <TouchableOpacity style={styles.formButton} onPress={handleCloseModal}>
+                                <View style={styles.simpleFormButton}>
+                                    <Text style={styles.buttonText}>Зареєструватися</Text>
+                                </View>
+                            </TouchableOpacity>
+
+                            <Text style={styles.orText}>or</Text>
+                            <View style={styles.socialContainer}>
+                                {/* Иконки социальных сетей */}
+                                <Image source={require('../assets/images/google.png')} style={styles.socialIcon} />
+                                <Image source={require('../assets/images/Facebook.png')} style={styles.socialIcon} />
+                            </View>
+
+                            <Text style={styles.linkText}>
+                                Вже маєте акаунт? <Text style={styles.registerText} onPress={openLoginModal}>Увійдіть</Text>
+                            </Text>
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal visible={isCategoryModalVisible} transparent animationType="slide" onRequestClose={closeCategoryModal}>
+                <View style={styles.categoryModalContainer}>
+                    <View style={styles.categoryModalContent}>
+                        <FlatList
+                            data={categories}
+                            keyExtractor={(item) => item}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity style={styles.categoryItem} onPress={() => selectCategory(item)}>
+                                    <Text style={styles.categoryText}>{item}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal visible={isLoginModalVisible} transparent animationType="slide" onRequestClose={closeLoginModal}>
+                <View style={styles.modalContainer}>
+                    <View style={[styles.modalContent, { maxHeight: '70%' }]}>
+                        <ScrollView contentContainerStyle={styles.scrollContent}>
+                            <Text style={styles.label}>Адреса ел. пошти</Text>
+                            <TextInput style={styles.input} placeholder="" keyboardType="email-address" />
+                            <Text style={styles.label}>Пароль</Text>
+                            <TextInput style={styles.input} placeholder="" secureTextEntry />
+                            <TouchableOpacity style={styles.formButton} onPress={closeLoginModal}>
+                                <View style={styles.simpleFormButton}>
+                                    <Text style={styles.buttonText}>Увійти</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <Text style={styles.orText}>or</Text>
+                            <View style={styles.socialContainer}>
+                                {/* Иконки социальных сетей */}
+                                <Image source={require('../assets/images/google.png')} style={styles.socialIcon} />
+                                <Image source={require('../assets/images/Facebook.png')} style={styles.socialIcon} />
+                            </View>
+
+                            <Text style={styles.linkText}>
+                                Не маєте акаунту? <Text style={styles.registerText} onPress={handleOpenModal}>Зареєструйтесь</Text>
+                            </Text>
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
+        </View> 
+        
         </ImageBackground>
     );
 }
