@@ -1,6 +1,8 @@
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import WelcomeScreen from './components/WelcomeScreen'; // проверьте путь!
+import HomeScreen from './components/HomeScreen';
+
 
 export default function App() {
   return (
