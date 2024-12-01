@@ -1,23 +1,18 @@
 import React from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
-import WelcomeScreen from './components/WelcomeScreen'; // проверьте путь!
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import WelcomeScreen from './components/WelcomeScreen';
 import HomeScreen from './components/HomeScreen';
 
+const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <WelcomeScreen /> {/* Добавляем WelcomeScreen */}
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Welcome">
+                <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Home" component={HomeScreen} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
