@@ -1,10 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import WelcomeScreen from './components/WelcomeScreen'; // проверьте путь!
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>OЭТО СУПЕР МОБАЙЛ</Text>
+      <WelcomeScreen /> {/* Добавляем WelcomeScreen */}
       <StatusBar style="auto" />
     </View>
   );
